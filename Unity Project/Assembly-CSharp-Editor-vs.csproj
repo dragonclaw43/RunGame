@@ -106,6 +106,9 @@
  <Reference Include="Assembly-UnityScript">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
  </Reference>
+ <Reference Include="JMOAssets">
+ <HintPath>Assets\JMO Assets\Editor\JMOAssets.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
  </Reference>
@@ -123,9 +126,6 @@
  </Reference>
  <Reference Include="UnityEditor.Android.Extensions">
  <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\AndroidPlayer\EditorExtensions\UnityEditor.Android.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="JMOAssets">
- <HintPath>Assets\JMO Assets\Editor\JMOAssets.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\CharacterActions.cs" />
      <Compile Include="Assets\Scripts\CharacterRunning.cs" />
      <Compile Include="Assets\Scripts\coinScript.cs" />
+     <Compile Include="Assets\Scripts\enemyActions.cs" />
      <Compile Include="Assets\Scripts\flashingLightScript.cs" />
      <Compile Include="Assets\Scripts\scoreScript.cs" />
      <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Cut Out Specular.shader" />

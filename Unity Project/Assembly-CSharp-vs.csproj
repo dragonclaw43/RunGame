@@ -46,8 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CloseDoor.cs" />
+     <Compile Include="Assets\HideShowGameObject.cs" />
      <Compile Include="Assets\JMO Assets\MatCap Shaders\Demo\Assets\MC_AutoRotate.cs" />
      <Compile Include="Assets\JMO Assets\MatCap Shaders\Demo\Assets\MC_SwitchTexture.cs" />
+     <Compile Include="Assets\MoveRobberDepth.cs" />
      <Compile Include="Assets\Scripts\CameraSettings.cs" />
      <Compile Include="Assets\Scripts\CharacterActions.cs" />
      <Compile Include="Assets\Scripts\CharacterRunning.cs" />
@@ -55,6 +58,10 @@
      <Compile Include="Assets\Scripts\enemyActions.cs" />
      <Compile Include="Assets\Scripts\flashingLightScript.cs" />
      <Compile Include="Assets\Scripts\scoreScript.cs" />
+     <Compile Include="Assets\SpiralStaircase.cs" />
+     <Compile Include="Assets\Trigger_Rotate.cs" />
+     <Compile Include="Assets\cameraPresets.cs" />
+     <Compile Include="Assets\fadeGameObject.cs" />
      <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Cut Out Specular.shader" />
      <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Cut Out Opaque Bump.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />

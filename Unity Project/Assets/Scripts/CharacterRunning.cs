@@ -18,11 +18,11 @@ public class CharacterRunning : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-		//if(colliding){
-	 transform.Translate(playerVelocity);
+		//if(!colliding){
+	 		transform.Translate(playerVelocity);
 		//}
 		//animation.AddClip(animClip);
-		//animation.Play("Walk");
+		//animation.Play("Walk"
 	}
 
 	void OnCollisionEnter(Collision theCollision){
@@ -34,7 +34,19 @@ public class CharacterRunning : MonoBehaviour {
 
 			if(theCollision.collider.gameObject.name == "Turnaround"){
 				transform.Rotate(new Vector3(0,180,0));
+				GameObject camera;
+				camera = GameObject.Find("Main Camera");
+				cameraPresets a = camera.GetComponent<cameraPresets>();
+				if(a.CameraPreset == 0){
+					a.changeCameraPreset(1);
+				}
+				else if(a.CameraPreset == 1){
+					a.changeCameraPreset(0);
+				}
 			}
 		}
+	}
+	void OnCollisionExit(Collision theCollision){
+		//colliding = false;
 	}
 }

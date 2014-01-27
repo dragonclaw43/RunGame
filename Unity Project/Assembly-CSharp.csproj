@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AlarmLightScript.cs" />
      <Compile Include="Assets\CloseDoor.cs" />
      <Compile Include="Assets\HideShowGameObject.cs" />
      <Compile Include="Assets\JMO Assets\MatCap Shaders\Demo\Assets\MC_AutoRotate.cs" />

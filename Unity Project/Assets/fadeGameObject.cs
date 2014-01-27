@@ -3,7 +3,7 @@ using System.Collections;
 
 public class fadeGameObject : MonoBehaviour {
 
-	public GameObject gameObj;
+	public GameObject[] gameObj;
 	public float fadeTime = 1.0f;
 	// Use this for initialization
 	void Start () {
@@ -18,13 +18,15 @@ public class fadeGameObject : MonoBehaviour {
 	void OnTriggerEnter (Collider other) {
 		if(other.collider.gameObject.name == "Robber"){
 			Color colorTemp;
-			for (float t = 0.0f; t < fadeTime*Time.deltaTime; t += Time.deltaTime){
-				colorTemp = gameObj.renderer.material.color;
-				colorTemp.a = Mathf.Lerp(1, 0, t);
-				gameObj.renderer.material.color =  colorTemp;
-				//gameObj.renderer.material.color.a = Mathf.Lerp(1, 0, t);
+			for(int i=0;i<gameObj.Length;i++){
+				for (float t = 0.0f; t < fadeTime*Time.deltaTime; t += Time.deltaTime){
+
+					colorTemp = gameObj[i].renderer.material.color;
+					colorTemp.a = Mathf.Lerp(1, 0, t);
+					gameObj[i].renderer.material.color =  colorTemp;
+				}
+				gameObj[i].renderer.enabled = false;
 			}
-			gameObj.renderer.enabled = false;
 		}
 	}
 }

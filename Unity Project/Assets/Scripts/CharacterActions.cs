@@ -83,18 +83,20 @@ public class CharacterActions : MonoBehaviour {
 				rigidbody.AddForce(Vector3.up *hopSpeed);
 			}
 			else if(characterHealth !=0){
-
 				characterHealth--;
 			}
 		}
-		if(theCollision.collider.gameObject.name == "Coin"){
-			Destroy(theCollision.collider.gameObject);
+
+	}
+
+	void OnTriggerEnter(Collider other) {
+		if(other.gameObject.name == "Coin"){
+			Destroy(other.gameObject);
 			GameObject a =  GameObject.Find("Main Camera");
 			scoreScript b = (scoreScript) a.GetComponent("scoreScript");
 			b.onCoinGet();
 		}
 	}
-	
 
 	void Death(){
 		Destroy(gameObject);

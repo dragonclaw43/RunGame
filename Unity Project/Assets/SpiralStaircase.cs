@@ -16,6 +16,7 @@ public class SpiralStaircase : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.UpArrow)){
 			if(inRange){
 				moveCharacter();
+				Debug.Log("going Up");
 			}
 		}
 	}

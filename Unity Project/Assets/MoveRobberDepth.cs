@@ -13,7 +13,7 @@ public class MoveRobberDepth : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log(robber.transform.position.x + " ");
+		//Debug.Log(robber.transform.position.x + " ");
 		if(collisionDetected){
 
 			if(finalDepth.z != 0){

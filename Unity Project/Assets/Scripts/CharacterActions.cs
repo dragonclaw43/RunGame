@@ -41,10 +41,19 @@ public class CharacterActions : MonoBehaviour {
 
 		switch(characterState){
 		case statNOTHING:
+			Debug.Log("Running");
 			animation.Play("Running");
 			break;
 		case statJUMPING:
-			//animation.Play("Jump");
+			if(animationStarted == false){
+				animation["Jump"].wrapMode = WrapMode.Once;
+				animation.Play("Jump");
+				animationStarted = true;
+			}
+			if(animation.IsPlaying("Jump") == false){
+				characterState = statNOTHING;
+				animationStarted = false;
+			}
 			break;
 		case statATTACKING:
 			if(animationStarted == false){

@@ -2,7 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\player2DScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\player2DScript.cs" Line="231" Column="4" />
+      <File FileName="Assets\wallScript.cs" Line="80" Column="50" />
+      <File FileName="Assets\Scripts\player2DScript.cs" Line="130" Column="45" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

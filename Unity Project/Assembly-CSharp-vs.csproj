@@ -62,6 +62,7 @@
      <Compile Include="Assets\Scripts\player2DScript.cs" />
      <Compile Include="Assets\Scripts\scoreScript.cs" />
      <Compile Include="Assets\Scripts\slideObject.cs" />
+     <Compile Include="Assets\wallScript.cs" />
      <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Cut Out Specular.shader" />
      <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Cut Out Opaque Bump.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />

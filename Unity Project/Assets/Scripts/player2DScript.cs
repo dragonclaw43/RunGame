@@ -24,7 +24,11 @@ public class player2DScript : MonoBehaviour {
 
 	// action states //
 
-	enum actionState{nothing, jumping, attacking, walled,slideSuccessful,slideFailed};
+	public enum actionState{standing,walking,running,jumping,attacking, 	// standard states
+							walled,wallRun,wallSlide,wallJump,liftUp,		// wall based states
+							vaultSuccessful,vaultFailed,					// vault based states
+							slideDown,sliding,slideUp,						// slide based states
+							moveDown,moveIn,moveOut,turnaround};			// Wall based states
 	actionState currentActionState;
 
 	// animation //
@@ -35,7 +39,7 @@ public class player2DScript : MonoBehaviour {
 		// initialize
 		constantlyMoving = true;
 		playersDefaultSpeed = playersCurrentSpeed;
-		resetCurrentActionState();
+		setCurrentActionState(actionState.running);
 
 
 		playerVelocity = new Vector3(0,0,playersCurrentSpeed);
@@ -49,58 +53,141 @@ public class player2DScript : MonoBehaviour {
 		switch(currentActionState){
 
 		// default state
-		case actionState.nothing:
+
+		case actionState.standing:
+			//animateCharacter("Running",0.5F,true);
+			break;
+
+		case actionState.walking:
+			animateCharacter("Walk",0.5F,true);
+			break;
+
+
+		case actionState.running:							// DONE
 			animateCharacter("Running",0.5F,true);
 			break;
 			
 		// Jumping
-		case actionState.jumping:
+		case actionState.jumping:							// DONE
 			animateCharacter("Jump",0.5F,false);
 			break;
 			
-		// punching	
+		// punching			
 		case actionState.attacking:
 			animateCharacter("Punch",1F,false);
 			if(!animation.IsPlaying("Punch")){
-				resetCurrentActionState();
+				setCurrentActionState(actionState.running);
 			}
 			break;
 
-		// hit a wall
-		case actionState.walled:
+		// Wall /////////////////////////////////////////////////////
+
+		// Reached Dead end
+		case actionState.walled:							// DONE
 			playersCurrentSpeed = 0;
 			animateCharacter("Dead End",1F,true);
 			break;
 
+		// climb Wall
+		case actionState.wallRun:
+			playersCurrentSpeed = 0;
+			animateCharacter("Climb Wall",1F,false);
+			if(animation.IsPlaying("Climb Wall")){
+				rigidbody.AddForce(Vector3.up *JumpSpeed/2);
+			}
+			break;
+
+			// climb Wall
+		case actionState.wallSlide:
+			playersCurrentSpeed = 0;
+			animateCharacter("Wall Fall",1F,true);
+			rigidbody.AddForce(Vector3.up *JumpSpeed/5);
+			break;
+
+			// climb Wall
+		case actionState.wallJump:
+			playersCurrentSpeed = 0;
+			animateCharacter("Wall Jump Part 1",1F,false);
+			break;
+
+			// climb Wall
+		case actionState.liftUp:
+			playersCurrentSpeed = 0;
+			animateCharacter("Wall Jump Part 2",1F,false);
+			break;
+
+		// Vault /////////////////////////////////////////////////////
+
 		// hopped over table
-		case actionState.slideSuccessful:
+		case actionState.vaultSuccessful:					// DONE
 			animateCharacter("Table Jump Success",1F,false);
 			if(!animation.IsPlaying("Table Jump Success")){
-				resetCurrentActionState();
+				setCurrentActionState(actionState.running);
 			}
 			break;
 
 		// hit table
-		case actionState.slideFailed:
+		case actionState.vaultFailed:						// DONE
 			animateCharacter("Table Jump Failure",.75F,false);
 			if(!animation.IsPlaying("Table Jump Failure")){
-				resetCurrentActionState();
+				setCurrentActionState(actionState.running);
 			}
 			if(animationStarted){
 				playersCurrentSpeed = Mathf.Lerp(playersCurrentSpeed,0,Time.deltaTime*1.5f);
 			}
 			break;
+
+		// Slide /////////////////////////////////////////////////////
+			// hit table
+		case actionState.slideDown:
+			animateCharacter("Slide Part 1",.75F,false);
+			break;
+
+			// hit table
+		case actionState.sliding:
+			animateCharacter("Slide Hold",.75F,true);
+			break;
+
+			// hit table
+		case actionState.slideUp:
+			animateCharacter("Slide Part 2",.75F,false);
+			break;
+
+		// Wall /////////////////////////////////////////////////////
+
+		case actionState.moveDown:
+			animateCharacter("Running",0.5F,true);
+			break;
 			
+			// hit table
+		case actionState.moveIn:
+			animateCharacter("Running",0.5F,true);
+			break;
 			
+			// hit table
+		case actionState.moveOut:
+			animateCharacter("Running",0.5F,true);
+			break;
+		case actionState.turnaround:
+			// rotate character
+			go_playerCharacter.transform.Rotate(new Vector3(0,180,0));
+			
+			// set the character to running
+			currentActionState = actionState.running;
+			
+			// rotate the camera to match
+			cameraPresets sc_cameraPreset = (cameraPresets) go_mainCamera.GetComponent("cameraPresets");
+			sc_cameraPreset.changeCameraPosition(cameraPresets.character.right);
+			animationStarted = false;
+			break;
 		}
 	}
 
-	void resetCurrentActionState(){
+	public void setCurrentActionState(actionState stateNew){
 		playersCurrentSpeed = playersDefaultSpeed;
-		currentActionState = actionState.nothing;
+		currentActionState = actionState.running;
 		animationStarted = false;
 	}
-
 	void animateCharacter(string animationName, float animationSpeed,bool animationRepeating){
 		if(!animationRepeating){	
 			animation[animationName].wrapMode = WrapMode.Once;
@@ -113,11 +200,12 @@ public class player2DScript : MonoBehaviour {
 		animationStarted = true;
 	}
 
-	public void slideSuccess (bool successful){
-		if(successful){currentActionState = actionState.slideSuccessful;}
-		else{currentActionState = actionState.slideFailed;}
+	public void vaultSuccess (bool successful){
+		if(successful){currentActionState = actionState.vaultSuccessful;}
+		else{currentActionState = actionState.vaultFailed;}
 		animationStarted = false;
 	}
+
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Movement and Input ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,15 +226,15 @@ public class player2DScript : MonoBehaviour {
 
 		}
 
-		// actions
-		if(Input.GetButton("Jump")){
-			Jump();
+		if(currentActionState == actionState.running){
+			// actions
+			if(Input.GetButton("Jump")){
+				Jump();
+			}
+			if(Input.GetButton("Fire1")){
+				Attack();
+			}
 		}
-		if(Input.GetButton("Fire1")){
-			Attack();
-		}
-
-
 	}
 
 
@@ -175,7 +263,7 @@ public class player2DScript : MonoBehaviour {
 	void OnCollisionEnter(Collision theCollision){
 		if(theCollision.collider.gameObject.name == "Ground"){
 			if(currentActionState == actionState.jumping){
-				resetCurrentActionState();
+				setCurrentActionState(actionState.running);
 			}
 		}
 		if(theCollision.collider.gameObject.name == "Enemy"){onEnemyCollision(theCollision);}
@@ -184,7 +272,6 @@ public class player2DScript : MonoBehaviour {
 	
 	// Enemy
 	void onEnemyCollision(Collision theCollision){
-		Debug.Log(go_playerCharacter.renderer.bounds.min.y + " - " + getEnemyWeakpoint(theCollision.collider.gameObject));
 		if(go_playerCharacter.renderer.bounds.min.y > getEnemyWeakpoint(theCollision.collider.gameObject)){
 			Destroy(theCollision.collider.gameObject);
 			rigidbody.AddForce(Vector3.up *hopSpeed);
@@ -210,13 +297,12 @@ public class player2DScript : MonoBehaviour {
 	// Trigger - Wall,Coin
 	void OnTriggerEnter(Collider other) {
 		if(other.gameObject.name == "Wall"){		// if the player is going to hit a wall, position the camera accordingly
-			Debug.Log("Trigger Enter");
-			cameraPresets sc_camPresetsTemp = go_mainCamera.GetComponent<cameraPresets>();
-			if(sc_camPresetsTemp.CameraPreset == cameraPresets.camPos.left){
-				sc_camPresetsTemp.changeCameraPreset(cameraPresets.camPos.slowDownRight);
+			cameraPresets sc_cameraPreset = (cameraPresets) go_mainCamera.GetComponent("cameraPresets");
+			if(sc_cameraPreset.cameraPosition == cameraPresets.character.right){
+				sc_cameraPreset.changeCameraPosition(cameraPresets.character.slowDownRight);
 			}
-			else if(sc_camPresetsTemp.CameraPreset == cameraPresets.camPos.right){
-				sc_camPresetsTemp.changeCameraPreset(cameraPresets.camPos.slowDownLeft);
+			else if(sc_cameraPreset.cameraPosition == cameraPresets.character.left){
+				sc_cameraPreset.changeCameraPosition(cameraPresets.character.slowDownLeft);
 			}
 		}
 		if(other.gameObject.name == "Coin"){		// Delete coin and add to your score
